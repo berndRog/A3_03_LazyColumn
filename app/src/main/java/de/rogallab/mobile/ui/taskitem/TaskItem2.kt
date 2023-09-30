@@ -17,9 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
-import de.rogallab.mobile.utilities.LogComp
-import de.rogallab.mobile.utilities.LogDebug
+import de.rogallab.mobile.utilities.logDebug
 
 @Composable
 fun TaskItem2(
@@ -30,7 +28,7 @@ fun TaskItem2(
 ) {
 
    val tag: String = "ok>TaskItem           ."
-   LogComp(tag, "Task: $id $label")
+   logDebug(tag, "Task: $id $label")
 
 
    var checked: Boolean by rememberSaveable{ mutableStateOf(false) }
@@ -44,7 +42,7 @@ fun TaskItem2(
          Checkbox(
             checked = checked,                 // State ↓
             onCheckedChange = {                 // Event -> remember
-               LogDebug(tag, "Checkbox $id clicked: $it")
+               logDebug(tag, "Checkbox $id clicked: $it")
                checked = it
             },
          //modifier = Modifier.weight(0.2f)

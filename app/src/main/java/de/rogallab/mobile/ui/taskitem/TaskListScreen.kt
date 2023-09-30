@@ -10,8 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.rogallab.android.model.Task
 import de.rogallab.android.ui.TaskViewModel
-import de.rogallab.mobile.utilities.LogComp
-import de.rogallab.mobile.utilities.LogDebug
+import de.rogallab.mobile.utilities.logDebug
 
 @Composable
 fun TaskListScreen(
@@ -19,7 +18,7 @@ fun TaskListScreen(
 ) {
 
    val tag: String = "ok>TaskListScreen     ."
-   LogComp(tag, "Start")
+   logDebug(tag, "Start")
 
    Column() {
 
@@ -35,7 +34,7 @@ fun TaskListScreen(
          tasks = viewModel.tasks,                     // State ↓
          onClicked = { id ->                          // Event ↑
             viewModel.get(id)?.let{ task: Task ->
-               LogDebug(tag,"TaskItem $id clicked")
+               logDebug(tag,"TaskItem $id clicked")
             }
          },
          onClose = { id ->                            // Event ↑

@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import de.rogallab.android.model.Task
-import de.rogallab.mobile.utilities.LogDebug
+import de.rogallab.mobile.utilities.logDebug
 
 class TaskViewModel(): ViewModel() {
 
@@ -26,12 +26,12 @@ class TaskViewModel(): ViewModel() {
       _number++
       val newTask = Task(id = _number, label = "Task # $_number")
       tasks.add(newTask)
-      LogDebug(tag,"Add $newTask")
+      logDebug(tag,"Add $newTask")
    }
 
    fun remove(id: Int) =
       get(id)?.let { it: Task ->
          tasks.remove(it)
-         LogDebug(tag,"Remove $it")
+         logDebug(tag,"Remove $it")
       }
 }

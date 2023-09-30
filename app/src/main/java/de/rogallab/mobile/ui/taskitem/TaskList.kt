@@ -6,7 +6,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import de.rogallab.android.model.Task
-import de.rogallab.mobile.utilities.LogComp
+import de.rogallab.mobile.utilities.logDebug
 
 @Composable
 fun TaskList(
@@ -17,7 +17,7 @@ fun TaskList(
 ) {
 
    val tag = "ok>TaskList           ."
-   LogComp(tag, "Start")
+   logDebug(tag, "Start")
 
    LazyColumn(
       modifier = modifier,
