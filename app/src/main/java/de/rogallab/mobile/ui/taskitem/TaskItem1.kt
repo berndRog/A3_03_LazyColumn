@@ -36,7 +36,7 @@ fun TaskItem1(
 
    var checked: Boolean by rememberSaveable{ mutableStateOf(false) }
 
-   Column() {
+   Column {
 
       Divider()
 
@@ -50,7 +50,7 @@ fun TaskItem1(
 
          Checkbox(
             checked = checked ,       // State ↓
-            onCheckedChange = { it -> // Event -> remember
+            onCheckedChange = {   // Event -> remember
                logDebug(tag, "Checkbox $id clicked: $it")
                checked = it
             },

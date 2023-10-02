@@ -8,8 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.rogallab.android.model.Task
-import de.rogallab.android.ui.TaskViewModel
+import de.rogallab.mobile.model.Task
+import de.rogallab.mobile.ui.TaskViewModel
 import de.rogallab.mobile.utilities.logDebug
 
 @Composable
@@ -20,7 +20,7 @@ fun TaskListScreen(
    val tag: String = "ok>TaskListScreen     ."
    logDebug(tag, "Start")
 
-   Column() {
+   Column {
 
       Button(
          onClick = { viewModel.add() },

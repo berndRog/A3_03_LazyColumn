@@ -45,7 +45,7 @@ class MainActivity : BaseActivity(TAG) {
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-   AppTheme() {
+   AppTheme {
       Surface(
          modifier = Modifier.fillMaxSize(),
          color = MaterialTheme.colorScheme.background

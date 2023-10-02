@@ -1,4 +1,4 @@
-package de.rogallab.android.model
+package de.rogallab.mobile.model
 
 data class Task(
    val id: Int,
