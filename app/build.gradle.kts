@@ -53,7 +53,7 @@ android {
 dependencies {
 
    // https://developer.android.com/jetpack/androidx/releases/activity
-   val activityCompose = "1.7.2"
+   val activityCompose = "1.8.0"
    implementation("androidx.activity:activity-compose:$activityCompose")
 
    // https://developer.android.com/jetpack/androidx/releases/core
@@ -73,7 +73,7 @@ dependencies {
    // A BOM is a Maven module that declares a set of libraries with their versions.
    // It will greatly simplify the way you define Compose library versions in your
    // Gradle dependencies block.
-   implementation(platform("androidx.compose:compose-bom:2023.09.00"))
+   implementation(platform("androidx.compose:compose-bom:2023.10.00"))
    implementation("androidx.compose.ui:ui")
    implementation("androidx.compose.ui:ui-graphics")
    implementation("androidx.compose.ui:ui-tooling-preview")
@@ -112,10 +112,11 @@ dependencies {
    androidTestImplementation("androidx.test:runner:$runner")
 
    // To use Compose Testing
-   androidTestImplementation(platform("androidx.compose:compose-bom:2023.09.00"))
+   androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.00"))
    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
    debugImplementation("androidx.compose.ui:ui-tooling")
-   debugImplementation("androidx.compose.ui:ui-test-manifest")
+   val uiTestManifest = "1.5.3"
+   debugImplementation("androidx.compose.ui:ui-test-manifest:$uiTestManifest")
 
    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutines")
 }
