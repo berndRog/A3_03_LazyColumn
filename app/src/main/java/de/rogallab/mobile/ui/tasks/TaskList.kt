@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.taskitem
+package de.rogallab.mobile.ui.tasks
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

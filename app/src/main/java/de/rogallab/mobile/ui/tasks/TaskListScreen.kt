@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.taskitem
+package de.rogallab.mobile.ui.tasks
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.rogallab.mobile.model.Task
-import de.rogallab.mobile.ui.TaskViewModel
 import de.rogallab.mobile.utilities.logDebug
 
 @Composable
