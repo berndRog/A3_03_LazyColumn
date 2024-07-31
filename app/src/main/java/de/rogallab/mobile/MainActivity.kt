@@ -9,7 +9,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import de.rogallab.mobile.ui.tasks.TaskListScreen
+import de.rogallab.mobile.ui.features.people.composables.PeopleListScreen
+import de.rogallab.mobile.ui.features.people.composables.PersonScreen
 import de.rogallab.mobile.ui.theme.AppTheme
 
 class MainActivity : BaseActivity(TAG) {
@@ -20,14 +21,14 @@ class MainActivity : BaseActivity(TAG) {
       setContent {
 
          AppTheme {
-
             Surface(
                modifier = Modifier.fillMaxSize(),
                color = MaterialTheme.colorScheme.background
             ) {
                Log.d("ok>ComposeView        .", "Composition")
 //             LazyColumnTest()
-               TaskListScreen()
+               PeopleListScreen()
+               //PersonScreen()
             }
          }
       }
@@ -36,9 +37,9 @@ class MainActivity : BaseActivity(TAG) {
    companion object {
       const val isInfo = true
       const val isDebug = true
+      const val isVerbose = true
       //12345678901234567890123
-      private const val TAG = "ok>MainActivity       ."
-
+      private const val TAG = "[MainActivity]"
    }
 }
 
@@ -58,7 +59,7 @@ fun Preview() {
 //            onClicked = {}            // Event ↑  TaskItem
 //         )
 
-         TaskListScreen()
+         PeopleListScreen()
       }
    }
 }

@@ -15,5 +15,5 @@ dependencyResolutionManagement {
    }
 }
 
-rootProject.name = "A3_03_ComposeList"
+rootProject.name = "A3_03_LazyColumn"
 include(":app")
