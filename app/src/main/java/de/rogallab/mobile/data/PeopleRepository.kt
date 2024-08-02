@@ -4,9 +4,6 @@ import de.rogallab.mobile.data.database.IDataStore
 import de.rogallab.mobile.domain.IPeopleRepository
 import de.rogallab.mobile.domain.ResultData
 import de.rogallab.mobile.domain.entities.Person
-import java.util.Locale
-import java.util.UUID
-import kotlin.random.Random
 
 class PeopleRepository(
    val dataStore: IDataStore
@@ -30,7 +27,7 @@ class PeopleRepository(
       }
    }
 
-   override fun getById(id: UUID): ResultData<Person?> {
+   override fun getById(id: String): ResultData<Person?> {
       return try {
          ResultData.Success(dataStore.findById(id))
       } catch (t: Throwable) {
@@ -64,7 +61,7 @@ class PeopleRepository(
       }
    }
 
-   override fun remove(id: UUID): ResultData<Unit> {
+   override fun remove(id: String): ResultData<Unit> {
       return try {
          dataStore.delete(id)
          ResultData.Success(Unit)

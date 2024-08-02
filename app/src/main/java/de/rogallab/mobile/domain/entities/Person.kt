@@ -1,13 +1,13 @@
 package de.rogallab.mobile.domain.entities
 
-import de.rogallab.mobile.domain.utilities.UUIDSerializer
+import androidx.compose.runtime.Immutable
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
 @Serializable
+@Immutable
 data class Person (
    val firstName: String = "",
    val lastName: String = "",
-   @Serializable(with = UUIDSerializer::class)
-   val id: UUID = UUID.randomUUID()
+   val id: String = UUID.randomUUID().toString()
 )

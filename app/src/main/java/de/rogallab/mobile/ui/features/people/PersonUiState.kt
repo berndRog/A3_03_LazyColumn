@@ -4,5 +4,5 @@ import de.rogallab.mobile.domain.entities.Person
 
 data class PersonUiState(
    val person: Person = Person(),
-   val error: Throwable? = null
+   val throwable: Throwable? = null
 )

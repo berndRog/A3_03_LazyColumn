@@ -13,10 +13,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.util.UUID
 
-class PeopleViewModel(application: Application): AndroidViewModel(application) {
+class PeopleViewModel(
+   application: Application
+): AndroidViewModel(application) {
 
+   // we must fix this by using a dependency injection framework
    val context = getApplication<Application>().applicationContext
    val dataStore = DataStore(context)
    val repository = PeopleRepository(dataStore)
@@ -49,8 +51,9 @@ class PeopleViewModel(application: Application): AndroidViewModel(application) {
    }
 
    // Data Binding PeopleListScreen <=> PeopleViewModel
-   private val _peopleUiStateFlow: MutableStateFlow<PeopleUiState> = MutableStateFlow(PeopleUiState())
-   val peopleUiStateFlow: StateFlow<PeopleUiState> = _peopleUiStateFlow.asStateFlow()
+   private var _peopleUiStateFlow: MutableStateFlow<PeopleUiState> = MutableStateFlow(PeopleUiState())
+   val peopleUiStateFlow: StateFlow<PeopleUiState>
+      get() = _peopleUiStateFlow.asStateFlow()
 
    // read all people from repository
    fun readPeople() {
@@ -58,9 +61,9 @@ class PeopleViewModel(application: Application): AndroidViewModel(application) {
       when (val resultData = repository.getAll()) {
          is ResultData.Success -> {
             _peopleUiStateFlow.update { it: PeopleUiState ->
-               it.copy(people = resultData.data)
+               it.copy(people = resultData.data.toList())
             }
-            logDebug(tag, "people.count: ${resultData.data?.size}")
+            logDebug(tag, "people.count: ${peopleUiStateFlow.value.people.size}")
          }
          is ResultData.Error -> {
             val message = "Failed to read people ${resultData.throwable.localizedMessage}"
@@ -70,7 +73,7 @@ class PeopleViewModel(application: Application): AndroidViewModel(application) {
       }
    }
 
-   fun readPerson(personId: UUID) {
+   fun readPerson(personId: String) {
       logDebug(tag, "readPerson: $personId")
       when (val resultData = repository.getById(personId)) {
          is ResultData.Success -> {
@@ -107,7 +110,7 @@ class PeopleViewModel(application: Application): AndroidViewModel(application) {
       }
    }
 
-   fun removePerson(personId: UUID) {
+   fun removePerson(personId: String) {
       logDebug(tag, "removePerson: $personId")
       when(val resultData = repository.remove(personId)) {
          is ResultData.Success -> readPeople()

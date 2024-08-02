@@ -7,9 +7,6 @@ import de.rogallab.mobile.domain.utilities.logVerbose
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
-import java.util.Locale
-import java.util.UUID
-import kotlin.random.Random
 
 class DataStore(
    private val _context: Context
@@ -30,7 +27,7 @@ class DataStore(
    override fun selectWhere(predicate: (Person) -> Boolean): MutableList<Person> =
       _people.filter(predicate).toMutableList()
 
-   override fun findById(id: UUID): Person? =
+   override fun findById(id: String): Person? =
       _people.firstOrNull{ it:Person -> it.id == id }
 
 
@@ -52,7 +49,7 @@ class DataStore(
       }
    }
 
-   override fun delete(id: UUID) {
+   override fun delete(id: String) {
       _people.removeIf { it.id == id }
    }
 
@@ -154,12 +151,12 @@ class DataStore(
 //      val emailProvider = mutableListOf("gmail.com", "icloud.com", "outlook.com", "yahoo.com",
 //         "t-online.de", "gmx.de", "freenet.de", "mailbox.org", "yahoo.com", "web.de")
 
-      val random = Random(0)
-      for (index in 0..<firstNames.size) {
-         var indexFirst = random.nextInt(firstNames.size)
-         var indexLast = random.nextInt(lastNames.size)
+//      val random = Random(0)
+      for (index in firstNames.indices) {
+//         var indexFirst = random.nextInt(firstNames.size)
+//         var indexLast = random.nextInt(lastNames.size)
          val firstName = firstNames[index]
-         val lastName = lastNames[indexLast]
+         val lastName = lastNames[index]
 //         val email =
 //            "${firstName.lowercase(Locale.getDefault())}." +
 //               "${lastName.lowercase(Locale.getDefault())}@" +
