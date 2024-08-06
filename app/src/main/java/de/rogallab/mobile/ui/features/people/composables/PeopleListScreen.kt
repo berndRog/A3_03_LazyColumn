@@ -34,7 +34,7 @@ fun PeopleListScreen(
    // read all people from repository, when the screen is created
    LaunchedEffect(Unit) {
       logVerbose(tag, "readPeople()")
-      viewModel.readPeople()
+      viewModel.fetchPeople()
    }
 
    Column(modifier = Modifier.fillMaxSize()) {

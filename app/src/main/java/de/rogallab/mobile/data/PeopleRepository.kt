@@ -1,6 +1,6 @@
 package de.rogallab.mobile.data
 
-import de.rogallab.mobile.data.database.IDataStore
+import de.rogallab.mobile.data.local.IDataStore
 import de.rogallab.mobile.domain.IPeopleRepository
 import de.rogallab.mobile.domain.ResultData
 import de.rogallab.mobile.domain.entities.Person

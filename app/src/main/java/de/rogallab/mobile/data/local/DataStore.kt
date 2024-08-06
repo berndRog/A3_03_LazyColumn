@@ -1,4 +1,4 @@
-package de.rogallab.mobile.data.database
+package de.rogallab.mobile.data.local
 
 import android.content.Context
 import de.rogallab.mobile.domain.entities.Person
