@@ -2,6 +2,7 @@ package de.rogallab.mobile.data.local
 
 import android.content.Context
 import de.rogallab.mobile.domain.entities.Person
+import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.domain.utilities.logError
 import de.rogallab.mobile.domain.utilities.logVerbose
 import kotlinx.serialization.encodeToString
@@ -54,14 +55,14 @@ class DataStore(
    }
 
    override fun readDataStore() {
-      logVerbose(TAG, "readDataStore()")
+      logDebug(TAG, "readDataStore()")
       _people.clear()
       // read data from the dataStore
       read()
    }
 
    override fun writeDataStore() {
-      logVerbose(TAG, "writeDataStore()")
+      logDebug(TAG, "writeDataStore()")
       write()
    }
 
@@ -82,7 +83,6 @@ class DataStore(
          val jsonString = File(filePath).readText()
          logVerbose(TAG, "readDataStore: $jsonString")
          _people = _json.decodeFromString(jsonString)
-         logVerbose(TAG, "readDataStore: ${_people.size}")
       } catch (e: Exception) {
          logError(TAG, "Failed to read dataStore; ${e.localizedMessage}")
          throw e
@@ -148,24 +148,12 @@ class DataStore(
          "Imhoff", "Jung", "Klein", "Lang", "Meier", "Neumann", "Olbrich", "Peters",
          "Quart", "Richter", "Schmidt", "Thormann", "Ulrich", "Vogel", "Wagner", "Xander",
          "Yakov", "Zander")
-//      val emailProvider = mutableListOf("gmail.com", "icloud.com", "outlook.com", "yahoo.com",
-//         "t-online.de", "gmx.de", "freenet.de", "mailbox.org", "yahoo.com", "web.de")
-
 //      val random = Random(0)
       for (index in firstNames.indices) {
 //         var indexFirst = random.nextInt(firstNames.size)
 //         var indexLast = random.nextInt(lastNames.size)
          val firstName = firstNames[index]
          val lastName = lastNames[index]
-//         val email =
-//            "${firstName.lowercase(Locale.getDefault())}." +
-//               "${lastName.lowercase(Locale.getDefault())}@" +
-//               "${emailProvider.random()}"
-//         val phone =
-//            "0${random.nextInt(1234, 9999)} " +
-//               "${random.nextInt(100, 999)}-" +
-//               "${random.nextInt(10, 9999)}"
-
          val person = Person(firstName, lastName)
          _people.add(person)
       }

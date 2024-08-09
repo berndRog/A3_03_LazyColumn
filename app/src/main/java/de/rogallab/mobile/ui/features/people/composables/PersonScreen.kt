@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import de.rogallab.mobile.ui.features.people.PeopleViewModel
 
 @Composable
 fun PersonScreen(
-   viewModel: PeopleViewModel = viewModel()
+   viewModel: PeopleViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
    val personUiState by viewModel.personUiStateFlow.collectAsStateWithLifecycle()
+
 
    // No errors occurred
    if (personUiState.throwable == null) {

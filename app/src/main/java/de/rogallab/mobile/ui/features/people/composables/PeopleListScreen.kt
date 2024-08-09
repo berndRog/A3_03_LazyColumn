@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -13,8 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import de.rogallab.mobile.R
 import de.rogallab.mobile.domain.entities.Person
 import de.rogallab.mobile.domain.utilities.logInfo
 import de.rogallab.mobile.domain.utilities.logVerbose
@@ -37,13 +38,15 @@ fun PeopleListScreen(
       viewModel.fetchPeople()
    }
 
+   val screenTitle = stringResource(R.string.people_list)
+
    Column(modifier = Modifier.fillMaxSize()) {
-      TopAppBar(  title = { Text("People") } )
+
+      TopAppBar(  title = { Text(screenTitle) } )
 
       LazyColumn(
          modifier = Modifier.padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
-         state = rememberLazyListState()
       ) {
          items(
             items = peopleUiState.people,

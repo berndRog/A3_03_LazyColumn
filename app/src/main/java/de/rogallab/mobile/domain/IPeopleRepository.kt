@@ -8,9 +8,9 @@ interface IPeopleRepository {
       : ResultData<MutableList<Person>>
    fun getWhere(predicate: (Person) -> Boolean)
       : ResultData<MutableList<Person>>
-   fun getById(id: String)
+   fun findById(id: String)
       : ResultData<Person?>
-   fun getBy(predicate: (Person) -> Boolean)
+   fun findBy(predicate: (Person) -> Boolean)
       : ResultData<Person?>
 
    fun create(person: Person): ResultData<Unit>

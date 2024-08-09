@@ -8,6 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import de.rogallab.mobile.ui.base.BaseActivity
 import de.rogallab.mobile.ui.features.people.composables.PeopleListScreen
 import de.rogallab.mobile.ui.theme.AppTheme
 
@@ -16,25 +17,20 @@ class MainActivity : BaseActivity(TAG) {
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
 
-      setContent {
 
+      setContent {
          AppTheme {
-            Surface(
-               modifier = Modifier.fillMaxSize(),
-               color = MaterialTheme.colorScheme.background
-            ) {
-               //PersonScreen()
-               //TestLazyColumn()
-               PeopleListScreen()
-            }
+            //PersonScreen()
+            //TestLazyColumn()
+            PeopleListScreen()
          }
       }
    }
 
    companion object {
-      const val isInfo = true
-      const val isDebug = true
-      const val isVerbose = true
+      const val ISINFO = true
+      const val ISDEBUG = true
+      const val ISVERBOSE = true
       //12345678901234567890123
       private const val TAG = "[MainActivity]"
    }

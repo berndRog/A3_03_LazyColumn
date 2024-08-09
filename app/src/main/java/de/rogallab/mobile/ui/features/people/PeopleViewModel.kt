@@ -1,9 +1,12 @@
 package de.rogallab.mobile.ui.features.people
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import de.rogallab.mobile.data.PeopleRepository
 import de.rogallab.mobile.data.local.DataStore
+import de.rogallab.mobile.data.local.IDataStore
+import de.rogallab.mobile.domain.IPeopleRepository
 import de.rogallab.mobile.domain.ResultData
 import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.domain.utilities.logError
@@ -18,19 +21,19 @@ class PeopleViewModel(
 ): AndroidViewModel(application) {
 
    // we must fix this by using a dependency injection framework
-   val context = getApplication<Application>().applicationContext
-   val dataStore = DataStore(context)
-   val repository = PeopleRepository(dataStore)
+   private val _context: Context = application.applicationContext
+   private val _dataStore: IDataStore = DataStore(_context)
+   private val _repository: IPeopleRepository = PeopleRepository(_dataStore)
 
    // read dataStore when ViewModel is created
    init {
       logDebug(TAG, "init readDataStore()")
-      repository.readDataStore()
+      _repository.readDataStore()
    }
    // write dataStore when ViewModel is cleared
    override fun onCleared() {
       logVerbose(TAG, "onCleared()")
-      repository.writeDataStore()
+      _repository.writeDataStore()
       super.onCleared()
    }
 
@@ -42,7 +45,7 @@ class PeopleViewModel(
    // read all people from repository
    fun fetchPeople() {
       logDebug(TAG, "fetchPeople")
-      when (val resultData = repository.getAll()) {
+      when (val resultData = _repository.getAll()) {
          is ResultData.Success -> {
             _peopleUiStateFlow.update { it: PeopleUiState ->
                it.copy(people = resultData.data.toList())
@@ -53,7 +56,6 @@ class PeopleViewModel(
             val message = "Failed to fetch people ${resultData.throwable.localizedMessage}"
             logError(TAG, message)
          }
-         else -> Unit
       }
    }
 
@@ -73,15 +75,25 @@ class PeopleViewModel(
       }
    }
 
+   fun createPerson() {
+      logDebug(TAG, "createPerson")
+      when (val resultData = _repository.create(_personUiStateFlow.value.person)) {
+         is ResultData.Success -> fetchPeople()
+         is ResultData.Error -> {
+            val message = "Failed to create a person ${resultData.throwable.localizedMessage}"
+            logError(TAG, message)
+         }
+      }
+   }
+
    fun removePerson(personId: String) {
       logDebug(TAG, "removePerson: $personId")
-      when(val resultData = repository.remove(personId)) {
+      when(val resultData = _repository.remove(personId)) {
          is ResultData.Success -> fetchPeople()
          is ResultData.Error -> {
             val message = "Failed to remove a person ${resultData.throwable.localizedMessage}"
             logError(TAG, message)
          }
-         else -> Unit
       }
    }
 

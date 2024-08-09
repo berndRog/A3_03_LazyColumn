@@ -1,3 +1,8 @@
 <resources>
-  <string name="app_name">A3_03_ComposeList</string>
+  <string name="app_name">A3_03_LazyColumn</string>
+  <string name="person_input">Neue Person</string>
+  <string name="person_detail">Person bearbeiten</string>
+  <string name="people_list">Personen</string>
+  <string name="firstName">Vorname</string>
+  <string name="lastName">Nachname</string>
 </resources>
