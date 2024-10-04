@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.features.people.composables
+package de.rogallab.mobile.ui.people.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,7 @@ import de.rogallab.mobile.R
 import de.rogallab.mobile.domain.entities.Person
 import de.rogallab.mobile.domain.utilities.logInfo
 import de.rogallab.mobile.domain.utilities.logVerbose
-import de.rogallab.mobile.ui.features.people.PeopleViewModel
+import de.rogallab.mobile.ui.people.PeopleViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

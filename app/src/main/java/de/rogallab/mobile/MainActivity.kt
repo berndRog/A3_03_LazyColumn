@@ -8,8 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import de.rogallab.mobile.ui.base.BaseActivity
-import de.rogallab.mobile.ui.features.people.composables.PeopleListScreen
+import de.rogallab.mobile.ui.people.composables.PeopleListScreen
 import de.rogallab.mobile.ui.theme.AppTheme
 
 class MainActivity : BaseActivity(TAG) {

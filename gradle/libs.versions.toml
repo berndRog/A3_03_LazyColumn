@@ -1,23 +1,26 @@
 [versions]
-activityCompose = "1.9.1"
+activityCompose = "1.9.2"
 coilCompose = "2.7.0"
-compose = "1.6.8"
+compose = "1.7.3"
 core = "1.13.1"
-composeBom = "2024.06.00"
-koin = "3.5.6"
-kotlinCoroutines = "1.8.1"
+composeBom = "2024.09.03"
+koin = "4.0.0"
+kotlinCoroutines = "1.9.0"
 kotlinxSerializationJson = "1.6.3"
-lifecycle = "2.8.4"
-navigation = "2.7.7"
+lifecycle = "2.8.6"
+navigation = "2.8.2"
 # testing
 androidTestCore = "1.6.1"
+androidTestRules = "1.6.1"
+androidTestRunner = "1.6.2"
+androidTextTruth = "1.6.0"
 espresso = "3.6.1"
 extJunit = "1.2.1"
 junit = "4.13.2"
 truth = "1.6.0"
-manifest = "1.6.8"
+manifest = "1.7.3"
 # plugins
-agp = "8.6.1"
+agp = "8.7.0"
 kotlin = "1.9.24"
 ksp = "1.9.24-1.0.20"
 
@@ -49,11 +52,12 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
 # testing
 androidx-core = { module = "androidx.test:core", version.ref = "androidTestCore" }
+androidx-rules = { module = "androidx.test:rules", version.ref = "androidTestRules" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "androidTestRunner" }
+androidx-truth = { module = "androidx.test.ext:truth", version.ref = "androidTextTruth" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "extJunit" }
 androidx-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "extJunit" }
-androidx-runner = { module = "androidx.test:runner", version.ref = "androidTestCore" }
-androidx-truth = { module = "androidx.test.ext:truth", version.ref = "truth" }
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }
 #koin-androidx-compose-test = { module = "io.insert-koin:koin-androidx-compose-test", version.ref = "koin" }

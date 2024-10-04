@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.features.people
+package de.rogallab.mobile.ui.people
 
 import de.rogallab.mobile.domain.entities.Person
 

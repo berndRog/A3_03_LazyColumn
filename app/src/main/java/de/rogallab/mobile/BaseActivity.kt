@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.base
+package de.rogallab.mobile
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

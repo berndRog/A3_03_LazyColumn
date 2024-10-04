@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.features.people.composables
+package de.rogallab.mobile.ui.people.composables
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import de.rogallab.mobile.ui.features.people.PeopleViewModel
+import de.rogallab.mobile.ui.people.PeopleViewModel
 
 @Composable
 fun PersonScreen(
