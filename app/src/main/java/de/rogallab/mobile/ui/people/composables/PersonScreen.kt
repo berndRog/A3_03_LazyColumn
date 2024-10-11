@@ -11,13 +11,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import de.rogallab.mobile.ui.people.PeopleViewModel
+import de.rogallab.mobile.ui.people.PersonIntent
 
-@Composable
+@Composable  // MVI pattern
 fun PersonScreen(
    viewModel: PeopleViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
    val personUiState by viewModel.personUiStateFlow.collectAsStateWithLifecycle()
-
 
    // No errors occurred
    if (personUiState.throwable == null) {
@@ -25,12 +25,14 @@ fun PersonScreen(
       Column(modifier = Modifier.padding(all = 8.dp).fillMaxSize()) {
          InputName(
             name = personUiState.person.firstName,
-            onNameChange = viewModel::onFirstNameChanged,
+            onNameChange = { firstName: String ->
+               viewModel.onProcessIntent(PersonIntent.FirstNameChanged(firstName)) },
             label = "Vorname"
          )
          InputName(
             name = personUiState.person.lastName,
-            onNameChange = viewModel::onLastNameChanged,
+            onNameChange = { lastName: String ->
+               viewModel.onProcessIntent(PersonIntent.LastNameChanged(lastName)) },
             label = "Nachname"
          )
       }

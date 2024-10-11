@@ -30,6 +30,7 @@ class PeopleViewModel(
       logDebug(TAG, "init readDataStore()")
       _repository.readDataStore()
    }
+
    // write dataStore when ViewModel is cleared
    override fun onCleared() {
       logVerbose(TAG, "onCleared()")
@@ -37,13 +38,20 @@ class PeopleViewModel(
       super.onCleared()
    }
 
-   // PeopleListScreen <=> PeopleViewModel
+   // PEOPLE LIST SCREEN <=> PeopleViewModel
    private var _peopleUiStateFlow: MutableStateFlow<PeopleUiState> = MutableStateFlow(PeopleUiState())
    val peopleUiStateFlow: StateFlow<PeopleUiState>
       get() = _peopleUiStateFlow.asStateFlow()
 
+   fun onProcessIntent(intent: PeopleIntent) {
+      when (intent) {
+         is PeopleIntent.FetchPeople -> fetchPeople()
+      }
+   }
+
+
    // read all people from repository
-   fun fetchPeople() {
+   private fun fetchPeople() {
       logDebug(TAG, "fetchPeople")
       when (val resultData = _repository.getAll()) {
          is ResultData.Success -> {
@@ -59,23 +67,31 @@ class PeopleViewModel(
       }
    }
 
-
    // PERSON SCREEN <=> PeopleViewModel
    private val _personUiStateFlow: MutableStateFlow<PersonUiState> = MutableStateFlow(PersonUiState())
    val personUiStateFlow: StateFlow<PersonUiState> = _personUiStateFlow.asStateFlow()
 
-   fun onFirstNameChanged(firstName: String) {
+   fun onProcessIntent(intent: PersonIntent) {
+      when (intent) {
+         is PersonIntent.FirstNameChanged -> onFirstNameChanged(intent.firstName)
+         is PersonIntent.LastNameChanged -> onLastNameChanged(intent.lastName)
+         is PersonIntent.CreatePerson -> createPerson()
+         is PersonIntent.RemovePerson -> removePerson(intent.id)
+      }
+   }
+
+   private fun onFirstNameChanged(firstName: String) {
       _personUiStateFlow.update { it: PersonUiState ->
          it.copy(person = it.person.copy(firstName = firstName))
       }
    }
-   fun onLastNameChanged(lastName: String) {
+   private fun onLastNameChanged(lastName: String) {
       _personUiStateFlow.update { it: PersonUiState ->
          it.copy(person = it.person.copy(lastName = lastName))
       }
    }
 
-   fun createPerson() {
+   private fun createPerson() {
       logDebug(TAG, "createPerson")
       when (val resultData = _repository.create(_personUiStateFlow.value.person)) {
          is ResultData.Success -> fetchPeople()
@@ -86,7 +102,7 @@ class PeopleViewModel(
       }
    }
 
-   fun removePerson(personId: String) {
+   private fun removePerson(personId: String) {
       logDebug(TAG, "removePerson: $personId")
       when(val resultData = _repository.remove(personId)) {
          is ResultData.Success -> fetchPeople()
@@ -98,6 +114,6 @@ class PeopleViewModel(
    }
 
    companion object {
-      private const val TAG = "[PeopleViewModel]"
+      private const val TAG = "<-PeopleViewModel"
    }
 }
