@@ -46,12 +46,12 @@ class PeopleViewModel(
    // transform intent into an action
    fun onProcessIntent(intent: PeopleIntent) {
       when (intent) {
-         is PeopleIntent.FetchPeople -> fetchPeople()
+         is PeopleIntent.FetchPeople -> fetch()
       }
    }
 
    // read all people from repository
-   private fun fetchPeople() {
+   private fun fetch() {
       logDebug(TAG, "fetchPeople")
       when (val resultData = _repository.getAll()) {
          is ResultData.Success -> {
@@ -76,8 +76,8 @@ class PeopleViewModel(
       when (intent) {
          is PersonIntent.FirstNameChange -> onFirstNameChange(intent.firstName)
          is PersonIntent.LastNameChange -> onLastNameChange(intent.lastName)
-         is PersonIntent.CreatePerson -> createPerson()
-         is PersonIntent.RemovePerson -> removePerson(intent.id)
+         is PersonIntent.Create -> create()
+         is PersonIntent.Remove -> remove(intent.id)
       }
    }
 
@@ -92,20 +92,20 @@ class PeopleViewModel(
       }
    }
 
-   private fun createPerson() {
+   private fun create() {
       logDebug(TAG, "createPerson")
       when (val resultData = _repository.create(_personUiStateFlow.value.person)) {
-         is ResultData.Success -> fetchPeople()
+         is ResultData.Success -> fetch()
          is ResultData.Error -> {
             val message = "Failed to create a person ${resultData.throwable.localizedMessage}"
             logError(TAG, message)
          }
       }
    }
-   private fun removePerson(personId: String) {
+   private fun remove(personId: String) {
       logDebug(TAG, "removePerson: $personId")
       when(val resultData = _repository.remove(personId)) {
-         is ResultData.Success -> fetchPeople()
+         is ResultData.Success -> fetch()
          is ResultData.Error -> {
             val message = "Failed to remove a person ${resultData.throwable.localizedMessage}"
             logError(TAG, message)
