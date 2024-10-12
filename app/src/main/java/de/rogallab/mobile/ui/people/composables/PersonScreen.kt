@@ -24,15 +24,15 @@ fun PersonScreen(
       // Show the input fields
       Column(modifier = Modifier.padding(all = 8.dp).fillMaxSize()) {
          InputName(
-            name = personUiState.person.firstName,
-            onNameChange = { firstName: String ->
-               viewModel.onProcessIntent(PersonIntent.FirstNameChanged(firstName)) },
+            name = personUiState.person.firstName,  // State ↓
+            onNameChange = { firstName: String ->   // Event ↑
+               viewModel.onProcessIntent(PersonIntent.FirstNameChange(firstName)) },
             label = "Vorname"
          )
          InputName(
-            name = personUiState.person.lastName,
-            onNameChange = { lastName: String ->
-               viewModel.onProcessIntent(PersonIntent.LastNameChanged(lastName)) },
+            name = personUiState.person.lastName,   // State ↓
+            onNameChange = { lastName: String ->    // Event ↑
+               viewModel.onProcessIntent(PersonIntent.LastNameChange(lastName)) },
             label = "Nachname"
          )
       }

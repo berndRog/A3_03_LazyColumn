@@ -43,12 +43,12 @@ class PeopleViewModel(
    val peopleUiStateFlow: StateFlow<PeopleUiState>
       get() = _peopleUiStateFlow.asStateFlow()
 
+   // transform intent into an action
    fun onProcessIntent(intent: PeopleIntent) {
       when (intent) {
          is PeopleIntent.FetchPeople -> fetchPeople()
       }
    }
-
 
    // read all people from repository
    private fun fetchPeople() {
@@ -71,21 +71,22 @@ class PeopleViewModel(
    private val _personUiStateFlow: MutableStateFlow<PersonUiState> = MutableStateFlow(PersonUiState())
    val personUiStateFlow: StateFlow<PersonUiState> = _personUiStateFlow.asStateFlow()
 
+   // transform intent into an action
    fun onProcessIntent(intent: PersonIntent) {
       when (intent) {
-         is PersonIntent.FirstNameChanged -> onFirstNameChanged(intent.firstName)
-         is PersonIntent.LastNameChanged -> onLastNameChanged(intent.lastName)
+         is PersonIntent.FirstNameChange -> onFirstNameChange(intent.firstName)
+         is PersonIntent.LastNameChange -> onLastNameChange(intent.lastName)
          is PersonIntent.CreatePerson -> createPerson()
          is PersonIntent.RemovePerson -> removePerson(intent.id)
       }
    }
 
-   private fun onFirstNameChanged(firstName: String) {
+   private fun onFirstNameChange(firstName: String) {
       _personUiStateFlow.update { it: PersonUiState ->
          it.copy(person = it.person.copy(firstName = firstName))
       }
    }
-   private fun onLastNameChanged(lastName: String) {
+   private fun onLastNameChange(lastName: String) {
       _personUiStateFlow.update { it: PersonUiState ->
          it.copy(person = it.person.copy(lastName = lastName))
       }
@@ -101,7 +102,6 @@ class PeopleViewModel(
          }
       }
    }
-
    private fun removePerson(personId: String) {
       logDebug(TAG, "removePerson: $personId")
       when(val resultData = _repository.remove(personId)) {
