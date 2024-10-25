@@ -1,6 +1,7 @@
 package de.rogallab.mobile.data.local
 
 import android.content.Context
+import de.rogallab.mobile.data.IDataStore
 import de.rogallab.mobile.domain.entities.Person
 import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.domain.utilities.logError
@@ -22,47 +23,46 @@ class DataStore(
       ignoreUnknownKeys = true
    }
 
-   override fun selectAll(): MutableList<Person> =
-      _people
+   init {
+      logDebug(TAG, "init: read datastore")
+      _people.clear()
+      read()
+   }
 
-   override fun selectWhere(predicate: (Person) -> Boolean): MutableList<Person> =
-      _people.filter(predicate).toMutableList()
+   override fun selectAll(): List<Person> =
+      _people.toList()
+
+   override fun selectWhere(predicate: (Person) -> Boolean): List<Person> =
+      _people.filter(predicate).toList()
 
    override fun findById(id: String): Person? =
       _people.firstOrNull{ it:Person -> it.id == id }
-
 
    override fun findBy(predicate: (Person) -> Boolean): Person? =
       _people.firstOrNull(predicate)
 
    override fun insert(person: Person) {
       logVerbose(TAG, "insert: $person")
-      if (!_people.any { it.id == person.id }) {
-         _people.add(person)
-      }
+      if (_people.any { it.id == person.id })
+         throw IllegalArgumentException("Person with id ${person.id} already exists")
+      _people.add(person)
+      write()
    }
 
-   override fun update(personToUpdate: Person) {
-      logVerbose(TAG, "update: $personToUpdate")
-      val index = _people.indexOfFirst { it.id == personToUpdate.id }
-      if (index != -1) {
-         _people[index] = personToUpdate
-      }
+   override fun update(person: Person) {
+      logVerbose(TAG, "update: $person")
+      val index = _people.indexOfFirst { it.id == person.id }
+      if (index == -1)
+         throw IllegalArgumentException("Person with id ${person.id} does not exist")
+      _people[index] = person
+      write()
    }
 
-   override fun delete(id: String) {
-      _people.removeIf { it.id == id }
-   }
-
-   override fun readDataStore() {
-      logDebug(TAG, "readDataStore()")
-      _people.clear()
-      // read data from the dataStore
-      read()
-   }
-
-   override fun writeDataStore() {
-      logDebug(TAG, "writeDataStore()")
+   override fun delete(person: Person) {
+      logVerbose(TAG, "delete: $person")
+      if (_people.none { it.id == person.id })
+         throw IllegalArgumentException("Person with id ${person.id} does not exist")
+      _people.remove(person)
       write()
    }
 
@@ -76,15 +76,17 @@ class DataStore(
          if (!file.exists() || file.readText().isBlank()) {
             // seed _people with some data
             seedData()
-            logVerbose(TAG, "readDataStore: seedData people:${_people.size}")
+            logVerbose(TAG, "read: seedData people:${_people.size}")
+            write()
             return
          }
          // read json from a file and convert to a list of people
          val jsonString = File(filePath).readText()
-         logVerbose(TAG, "readDataStore: $jsonString")
          _people = _json.decodeFromString(jsonString)
+
+         logVerbose(TAG, jsonString)
       } catch (e: Exception) {
-         logError(TAG, "Failed to read dataStore; ${e.localizedMessage}")
+         logError(TAG, "Failed to read: ${e.message}")
          throw e
       }
    }
@@ -97,9 +99,9 @@ class DataStore(
          // save to a file
          val file = File(filePath)
          file.writeText(jsonString)
-         logVerbose(TAG, "writeDataStore: $jsonString")
+         logVerbose(TAG, "write: $jsonString")
       } catch (e: Exception) {
-         logError(TAG, "Failed to write dataStore; ${e.localizedMessage}")
+         logError(TAG, "Failed to write: ${e.message}")
          throw e
       }
    }
@@ -108,19 +110,14 @@ class DataStore(
    // UserHome/Documents/android/people.json
    private fun getFilePath(fileName: String): String {
       try {
-         // get the user's home directory
-         // val userHome = System.getProperty("user.home")
          // get the Apps home directory
          val appHome = _context.filesDir
-         // the directory UserHome/Documents must exist
-         // check if the directory exists, if not create it
+         // the directory must exist, if not create it
          val directoryPath = "$appHome/documents/$DIRECTORY_NAME"
-         if (!directoryExists(directoryPath)) {
+         if ( !directoryExists(directoryPath) )
             createDirectory(directoryPath)
-         }
          // return the file path
-         val filePath = "$directoryPath/$fileName"
-         return filePath
+         return "$directoryPath/$fileName"
       } catch (e: Exception) {
          logError(TAG, "Failed to getFilePath or create directory; ${e.localizedMessage}")
          throw e
@@ -159,10 +156,9 @@ class DataStore(
       }
    }
 
-
    companion object {
-      private const val TAG = "[DataStore]"
+      private const val TAG = "<-DataStore"
       private const val DIRECTORY_NAME = "android"
-      private const val FILE_NAME = "people.json"
+      private const val FILE_NAME = "people1.json"
    }
 }

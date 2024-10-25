@@ -3,14 +3,15 @@ package de.rogallab.mobile.ui.people
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import de.rogallab.mobile.data.PeopleRepository
+import de.rogallab.mobile.data.IDataStore
 import de.rogallab.mobile.data.local.DataStore
-import de.rogallab.mobile.data.local.IDataStore
+import de.rogallab.mobile.data.repositories.PeopleRepository
 import de.rogallab.mobile.domain.IPeopleRepository
 import de.rogallab.mobile.domain.ResultData
+import de.rogallab.mobile.domain.entities.Person
+import de.rogallab.mobile.domain.utilities.as8
 import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.domain.utilities.logError
-import de.rogallab.mobile.domain.utilities.logVerbose
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,19 +25,6 @@ class PeopleViewModel(
    private val _context: Context = application.applicationContext
    private val _dataStore: IDataStore = DataStore(_context)
    private val _repository: IPeopleRepository = PeopleRepository(_dataStore)
-
-   // read dataStore when ViewModel is created
-   init {
-      logDebug(TAG, "init readDataStore()")
-      _repository.readDataStore()
-   }
-
-   // write dataStore when ViewModel is cleared
-   override fun onCleared() {
-      logVerbose(TAG, "onCleared()")
-      _repository.writeDataStore()
-      super.onCleared()
-   }
 
    // PEOPLE LIST SCREEN <=> PeopleViewModel
    private var _peopleUiStateFlow: MutableStateFlow<PeopleUiState> = MutableStateFlow(PeopleUiState())
@@ -77,7 +65,7 @@ class PeopleViewModel(
          is PersonIntent.FirstNameChange -> onFirstNameChange(intent.firstName)
          is PersonIntent.LastNameChange -> onLastNameChange(intent.lastName)
          is PersonIntent.Create -> create()
-         is PersonIntent.Remove -> remove(intent.id)
+         is PersonIntent.Remove -> remove(intent.person)
       }
    }
 
@@ -102,9 +90,9 @@ class PeopleViewModel(
          }
       }
    }
-   private fun remove(personId: String) {
-      logDebug(TAG, "removePerson: $personId")
-      when(val resultData = _repository.remove(personId)) {
+   private fun remove(person: Person) {
+      logDebug(TAG, "removePerson() ${person.id.as8()}")
+      when(val resultData = _repository.remove(person)) {
          is ResultData.Success -> fetch()
          is ResultData.Error -> {
             val message = "Failed to remove a person ${resultData.throwable.localizedMessage}"

@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import de.rogallab.mobile.R
 import de.rogallab.mobile.domain.entities.Person
+import de.rogallab.mobile.domain.utilities.as8
+import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.domain.utilities.logInfo
 import de.rogallab.mobile.domain.utilities.logVerbose
 import de.rogallab.mobile.ui.people.PeopleIntent
@@ -59,11 +61,11 @@ fun PeopleListScreen(
                firstName = person.firstName,
                lastName = person.lastName,
                onClicked = { id: String ->
-                  logInfo(tag, "Person clicked: $id")
+                  logInfo(tag, "Person clicked: ${id.as8()}")
                },
                onDeleted = { id: String ->
-                  logInfo(tag, "Person deleted: $id")
-                  viewModel.onProcessIntent(PersonIntent.Remove(id))
+                  logDebug(tag, "Person deleted: ${id.as8()}")
+                  viewModel.onProcessIntent(PersonIntent.Remove(person))
                }
             )
          }
